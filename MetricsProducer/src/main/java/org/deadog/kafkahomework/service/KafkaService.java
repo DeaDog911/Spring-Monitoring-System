@@ -18,15 +18,15 @@ public class KafkaService {
     private final MetricsEndpoint metricsEndpoint;
 
     public void sendMetrics() {
-//        List<String> metricsNames = Arrays.asList(
-//                "process.cpu.usage",
-//                "system.cpu.usage",
-//                "http.server.requests",
-//                "jvm.memory.used",
-//                "jvm.memory.max",
-//                "jwm.memory.committed"
-//        );
-        List<Metric> metrics = metricsEndpoint.listNames().getNames().stream()
+        List<String> metricsNames = Arrays.asList(
+                "process.cpu.usage",
+                "system.cpu.usage",
+                "http.server.requests",
+                "jvm.memory.used",
+                "jvm.memory.max",
+                "jwm.memory.committed"
+        );
+        List<Metric> metrics = metricsNames.stream()
                 .map(name -> metricsEndpoint.metric(name, null))
                 .filter(metric -> metric != null)
                 .map(Metric::new)

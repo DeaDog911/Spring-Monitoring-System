@@ -2,13 +2,11 @@ package org.deadog.kafkahomework.service;
 
 import lombok.RequiredArgsConstructor;
 import org.deadog.kafkahomework.model.Metric;
-import org.deadog.kafkahomework.model.MetricsHolder;
 import org.deadog.kafkahomework.repository.MetricRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +26,4 @@ public class MetricService {
                         .findFirst())
                 .orElse(null);
     }
-
-//    public void analyzeMetrics(MetricsHolder metricsHolder) {
-//        for (Metric metric : metricsHolder.getMetrics()) {
-//
-//        }
-//    }
 }

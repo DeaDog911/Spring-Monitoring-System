@@ -1,13 +1,14 @@
-version: '3'
+version: '3.8'
+
 
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: zookeeper
     ports:
       - "2181:2181"
 
   kafka:
-    image: wurstmeister/kafka
+    image: confluentinc/cp-kafka
     ports:
       - "9092:9092"
     environment:
@@ -16,37 +17,6 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-  metrics-producer:
-    container_name: metrics-producer
-    build:
-      context: ./MetricsProducer
-      dockerfile: Dockerfile
-    image: metrics-producer
-    ports:
-      - "8080:8080"
-    depends_on:
-      - kafka
-
-  metrics-consumer:
-    container_name: metrics-consumer
-    build:
-      context: ./MetricsConsumer
-      dockerfile: Dockerfile
-    image: metrics-consumer
-    ports:
-      - "8090:8080"
-    depends_on:
-      - kafka
-
-  mongodb:
-    image: mongo:6-jammy
-    ports:
-      - '27017:27017'
-    volumes:
-      - dbdata6:/data/db
-  
-volumes:
-  dbdata6:

@@ -8,7 +8,6 @@ import org.deadog.kafkahomework.repository.MetricRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,13 +17,17 @@ import java.util.UUID;
 public class KafkaService {
     private final MetricRepository metricRepository;
 
+    private final MetricAnalysisService metricAnalysisService;
+
     @KafkaListener(id="metrics-consumer", topics="metrics-topic")
     public void consume(MetricsHolder metricsHolder) {
-       for (Metric metric : metricsHolder.getMetrics()) {
-           log.info("Consumed message -> {}", metric);
-       }
-       metricsHolder.setId(UUID.randomUUID().toString());
-       metricsHolder.setTime(new Date(System.currentTimeMillis()));
-       metricRepository.save(metricsHolder);
+        for (Metric metric : metricsHolder.getMetrics()) {
+           log.info("Получена метрика: {}", metric);
+        }
+        metricsHolder.setId(UUID.randomUUID().toString());
+        metricsHolder.setTime(new Date(System.currentTimeMillis()));
+        metricRepository.save(metricsHolder);
+
+        metricAnalysisService.analyzeAllMetrics();
     }
 }

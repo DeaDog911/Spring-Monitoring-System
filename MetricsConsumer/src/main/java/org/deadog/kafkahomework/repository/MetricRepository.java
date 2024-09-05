@@ -1,6 +1,5 @@
 package org.deadog.kafkahomework.repository;
 
-import org.deadog.kafkahomework.model.Metric;
 import org.deadog.kafkahomework.model.MetricsHolder;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
